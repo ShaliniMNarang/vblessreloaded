@@ -2,13 +2,13 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'app', defaultValue: 'vBlessImg/vBless', description: 'docker app name')
+        string(name: 'app', defaultValue: 'vblessimg/vbless', description: 'docker app name')
     }
 
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn install dockerfile:build'
             }
         }
         stage('Test') {
@@ -19,12 +19,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                proId=`ps -ef | grep -i vbless.jar | grep -v grep | awk \'{print $2}\'`;
-                if [ -n "$proId" ]
-                then
-                kill $proId;
-                fi
-                java -jar /tmp/vBless/target/vBless.jar --spring.datasource.url=jdbc:mysql://easyfilemgrdb.c7fel01xnjwz.us-east-2.rds.amazonaws.com:3306/filemgr --spring.datasource.username=system --spring.datasource.password=managermysql &
+                pwd
+                echo $jdbc_user_name;
+                dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
+				if [ -n "$dockerProcess" ]
+				then
+					docker stop $dockerProcess	
+					echo "docker process "$dockerProcess" stopped"
+				fi
+				docker run -p 6565:8080 -t $app docker run -p 5050:8080 -t vblessimg/vbless  --spring.datasource.url=$jdbc_url --spring.datasource.username=$jdbc_user_name --spring.datasource.password=$jdbc_password --email.userName=$email_userName  --email.password=$email_password &
                 '''
             }
         }
