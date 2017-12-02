@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
                 pwd
-                echo $jdbc_user_name;
+                echo ${env.jdbc_user_name};
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
