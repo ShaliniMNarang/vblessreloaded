@@ -10,13 +10,17 @@ pipeline {
             steps {
             		sh '''
             		dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
+            		export dockerProcess;
                  mvn install dockerfile:build;
                  '''
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '''
+                echo $dockerProcess
+                mvn test
+                '''
             }
         }
         stage('Deploy') {
