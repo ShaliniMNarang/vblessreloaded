@@ -20,7 +20,6 @@ pipeline {
             steps {
                 sh '''
                 pwd
-                source ~/.bash_profile
                 env
                 echo $GOOGLE_APPLICATION_CREDENTIALS;
                 echo $JDBC_URL;
