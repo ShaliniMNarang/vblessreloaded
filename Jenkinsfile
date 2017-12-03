@@ -8,8 +8,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+            		sh '''
             		dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
-                sh 'mvn install dockerfile:build'
+                 mvn install dockerfile:build;
+                 '''
             }
         }
         stage('Test') {
