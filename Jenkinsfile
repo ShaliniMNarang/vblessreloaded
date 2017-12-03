@@ -21,9 +21,7 @@ pipeline {
                 sh '''
                 pwd
                 env
-                echo $jdbc_password;
-                echo $jdbc_url;
-                echo 11
+                echo $JDBC_URL;
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
