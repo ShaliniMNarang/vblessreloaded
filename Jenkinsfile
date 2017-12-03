@@ -23,6 +23,7 @@ pipeline {
                 env
                 echo $GOOGLE_APPLICATION_CREDENTIALS;
                 echo $JDBC_URL;
+                echo $JDBC_USER_NAME;
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
