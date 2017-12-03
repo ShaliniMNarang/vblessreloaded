@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+            		dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
                 sh 'mvn install dockerfile:build'
             }
         }
@@ -20,7 +21,7 @@ pipeline {
             steps {
                 sh '''
                 ls
-                dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
+                echo $dockerProcess
 				if [ -n "$dockerProcess" ]
 				then
 					docker stop $dockerProcess	
