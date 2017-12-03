@@ -20,8 +20,9 @@ pipeline {
             steps {
                 sh '''
                 pwd
-                echo $env.BRANCH_NAME;
-                echo env.BRANCH_NAME;
+                env
+                echo $jdbc_password;
+                echo $jdbc_url;
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
