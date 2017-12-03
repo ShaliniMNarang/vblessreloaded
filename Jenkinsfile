@@ -31,7 +31,7 @@ pipeline {
 					docker stop $dockerProcess	
 					echo "docker process "$dockerProcess" stopped"
 				fi
-				docker run -p 6565:8080 -t $app docker run -p 5050:8080 -t vblessimg/vbless  --spring.datasource.url=$JDBC_URL --spring.datasource.username=$JDBC_USER_NAME --spring.datasource.password=$JDBC_PASSWORD --email.userName=$EMAIL_USERNAME  --email.password=$EMAIL_PASSWORD &
+				/Users/chidanandapati/spring/vbless.sh
                 '''
             }
         }
