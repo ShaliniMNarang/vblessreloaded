@@ -22,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sjsu.backbenchers.vBless.entity.Campaign;
 import com.sjsu.backbenchers.vBless.entity.CampaignRepository;
+import com.sjsu.backbenchers.vBless.entity.CampaignUser;
 import com.sjsu.backbenchers.vBless.entity.CampaignUserRepository;
+import com.sjsu.backbenchers.vBless.entity.FundDetails;
+import com.sjsu.backbenchers.vBless.entity.FundDetailsRepository;
 
 @RestController
 @RequestMapping("/campaigns")
@@ -36,6 +39,9 @@ public class CampaignRestController {
 	
 	@Autowired
 	private CampaignUserRepository campaignUserRepository;
+
+	@Autowired
+	private FundDetailsRepository fundDetailsRepository;
 	
 	/* Get all Campaigns */
 	@RequestMapping(value="/",method=RequestMethod.GET)
@@ -65,6 +71,23 @@ public class CampaignRestController {
 		return new ResponseEntity<Campaign>(newCampaign,HttpStatus.CREATED);
 	}
 	
+	/* Add Fund Details for a Campaign*/
+	@RequestMapping(value="/addFundDetails",method=RequestMethod.POST)
+	public ResponseEntity<FundDetails> addFundDetails(@RequestParam(value="amount_paid", required=true) String amountPaid,
+			@RequestParam(value="campaign_id", required=true) Long campaignId,
+			@RequestParam(value="payment_date", required=true) String paymentDate,
+			@RequestParam(value="user_id", required=false) String userId){
+		log.debug("addFundDetails");
+		FundDetails fd = new FundDetails();
+		fd.setAmountPaid(amountPaid);
+		fd.setCampaignId(campaignId);
+		fd.setPaymentDate(paymentDate);
+		fd.setUserId(userId);
+		
+		fundDetailsRepository.save(fd);
+		return new ResponseEntity<FundDetails>(fd,HttpStatus.OK);
+	}
+	
 	/* Upload File to a campaign */
 	@RequestMapping(value="/uploadfile/{campaignId}",method=RequestMethod.POST)
 	public ResponseEntity<Campaign> uploadFile(@PathVariable Long campaignId,@RequestParam("fileUpload") MultipartFile fileUpload){
@@ -82,7 +105,7 @@ public class CampaignRestController {
 		}
 		return new ResponseEntity<Campaign>(campaign,HttpStatus.CREATED);
 	}
-	
+
 	/* Update a campaign */
 	@RequestMapping(value="/",method=RequestMethod.PUT)
 	public ResponseEntity<Campaign> updateCampaign(@RequestBody Campaign campaign){
