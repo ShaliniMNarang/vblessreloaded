@@ -19,12 +19,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                pwd
-                env
-                echo $GOOGLE_APPLICATION_CREDENTIALS;
-                echo $JDBC_URL;
-                echo $JDBC_USER_NAME;
-                echo 22;
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
