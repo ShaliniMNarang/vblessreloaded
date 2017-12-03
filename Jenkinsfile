@@ -19,6 +19,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
+                ls
                 dockerProcess=`docker ps|grep $app|awk \'{print $1}\'`;
 				if [ -n "$dockerProcess" ]
 				then
