@@ -165,17 +165,18 @@ myApp.controller('campaignListController', function($scope, httpPost,
 myApp.controller('manageCampaignController', function($rootScope,$scope, $http,$routeParams,$location) {
 	console.log("manageCampaignController");
 	$scope.userId=$rootScope.userId; 
+	$scope.myVar=false;
 
 	// hardcoding for now. Actually to get value from manageCampaigns page Suspend button.
-	$scope.campaignId=1; 
+	//$scope.campaignId=1; 
 	
 	$http.get("/campaigns/").then(function(data){
-		$scope.campaigns=data.data;		
+		$scope.campaigns=data.data;	
+		console.log($scope.campaigns);
 	});
 	
-	$scope.xyzClick=function(x){
-		console.log("$$$ Button Click : ");
-		console.log(x);
+	$scope.radioClick=function(id){
+		$scope.campaignId=id;
 	};
 
 	$scope.updateCampaign=function(){
