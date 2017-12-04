@@ -25,6 +25,9 @@ myApp.config(function($routeProvider, $qProvider) {
 	}).when("/createCampaign/:ID", {
 		templateUrl : "views/createCampaign.html",
 		controller : "campaignController"
+	}).when("/manageCampaigns", {
+		templateUrl : "views/manageCampaigns.html",
+		controller : "manageCampaignController"
 	});
 	
 	$qProvider.errorOnUnhandledRejections(false);

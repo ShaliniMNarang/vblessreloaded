@@ -2,6 +2,9 @@ package com.sjsu.backbenchers.vBless.controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -75,13 +78,16 @@ public class CampaignRestController {
 	@RequestMapping(value="/addFundDetails",method=RequestMethod.POST)
 	public ResponseEntity<FundDetails> addFundDetails(@RequestParam(value="amount_paid", required=true) String amountPaid,
 			@RequestParam(value="campaign_id", required=true) Long campaignId,
-			@RequestParam(value="payment_date", required=true) String paymentDate,
 			@RequestParam(value="user_id", required=false) String userId){
 		log.debug("addFundDetails");
 		FundDetails fd = new FundDetails();
 		fd.setAmountPaid(amountPaid);
 		fd.setCampaignId(campaignId);
-		fd.setPaymentDate(paymentDate);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");		
+		String todayDate = dateFormat.format(new Date());		
+		fd.setPaymentDate(todayDate);
+		
 		fd.setUserId(userId);
 		
 		fundDetailsRepository.save(fd);
@@ -113,6 +119,17 @@ public class CampaignRestController {
 		Campaign updatedCampaign=campaignRepository.save(campaign);
 		return new ResponseEntity<Campaign>(updatedCampaign,HttpStatus.OK);
 	}
+	
+	/* Update a campaign Status */
+	@RequestMapping(value="/updateCampaignStatus",method=RequestMethod.POST)
+	public ResponseEntity<Campaign> updateCampaignStatus(@RequestParam Long campaignId){
+		log.debug("updateCampaignStatus.... " + campaignId);
+		Campaign campaign = campaignRepository.findOne(campaignId);
+		campaign.setActive("N");
+		Campaign updatedCampaign=campaignRepository.save(campaign);
+		return new ResponseEntity<Campaign>(updatedCampaign,HttpStatus.OK);
+	}
+	
 	/* Delete a campaign */
 	@RequestMapping(value="/{campaignId}",method=RequestMethod.DELETE)
 	public ResponseEntity<Campaign> deleteCampaign(@PathVariable Long campaignId){

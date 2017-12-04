@@ -161,6 +161,66 @@ myApp.controller('campaignListController', function($scope, httpPost,
 	}
 });
 
+/* manageCampaignController Implementation Start */
+myApp.controller('manageCampaignController', function($rootScope,$scope, $http,$routeParams,$location) {
+	console.log("manageCampaignController");
+	$scope.userId=$rootScope.userId; 
+
+	// hardcoding for now. Actually to get value from manageCampaigns page Suspend button.
+	$scope.campaignId=1; 
+	
+	$http.get("/campaigns/").then(function(data){
+		$scope.campaigns=data.data;		
+	});
+	
+	$scope.xyzClick=function(x){
+		console.log("$$$ Button Click : ");
+		console.log(x);
+	};
+
+	$scope.updateCampaign=function(){
+		console.log("** In manage campaign Controller: " + $scope.myVar);
+		
+	       var url = "http://"+$location.$$host+':'+$location.$$port+"/campaigns/updateCampaignStatus";
+	       
+	       var data = new FormData();
+	       data.append('campaignId',$scope.campaignId);
+	       
+	       var config = {
+	    	   	transformRequest: angular.identity,
+	    	   	transformResponse: angular.identity,
+		   		headers : {
+		   			'Content-Type': undefined
+		   	    }
+	       }
+	       
+	       $http.post(url, data, config).then(function (response) {
+	    	   if(response.data != "FAIL")  {
+	    		   $location.url("list");
+	    	   }
+			});
+		
+//		$location.path("/manageCampaigns/"+$routeParams.ID);
+	}
+	
+	$scope.editPage=function(){
+		$location.path("/manageCampaigns/"+$routeParams.ID);
+	}
+	
+});
+
+/* updateCampaignStatusController Implementation Start 
+myApp.controller('updateCampaignStatusController', function($rootScope,$scope, $http,$routeParams,$location) {
+	console.log("updateCampaignStatusController");
+
+	$scope.updateCampaign=function(){
+		console.log("In update campaign Status: " + $scope.myVar);
+//		$location.path("/manageCampaigns/"+$routeParams.ID);
+	}
+	
+});*/
+
+
 
 
 /* shareController Implementation Start */

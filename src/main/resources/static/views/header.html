@@ -18,6 +18,7 @@
 					<li><a target="_blank" href="https://us-west-2b.online.tableau.com/#/site/bbvbless/views" ng-show="isUserLoggedIn=true">BI @ Tableau</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#!manageCampaigns" ng-show="isUserLoggedIn" title="profile">Manage Campaigns</a></li>
 					<li><a href="#!userProfile" ng-show="isUserLoggedIn" title="profile">Welcome {{userId}}</a></li>
 					<li  class="pull-right"><a ng-controller="logoutController" ng-click="logout()" ng-show="isUserLoggedIn=true"><span
 						class="glyphicon glyphicon-log-in"></span> Logout</a></li>
