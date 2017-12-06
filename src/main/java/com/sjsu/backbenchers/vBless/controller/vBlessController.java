@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sjsu.backbenchers.vBless.entity.CampaignUser;
 import com.sjsu.backbenchers.vBless.entity.CampaignUserRepository;
+import com.sjsu.backbenchers.vBless.entity.FundDetailsRepository;
 
 @RestController
 @RequestMapping("/vBless/")
@@ -17,6 +18,9 @@ public class vBlessController {
 	
 	@Autowired
 	private CampaignUserRepository campaignUserRepository;
+	
+	@Autowired
+	private FundDetailsRepository fundDetailsRepository;
 	
 	@RequestMapping("/user")
 	public Principal user(Principal principal) {
@@ -28,7 +32,7 @@ public class vBlessController {
 		return "Hello World!!!";
 	}
 	
-	@RequestMapping("/getCampaignUser/{userId}")
+	@RequestMapping("/getCampaignUser/{userId:.+}")
 	public CampaignUser getCampaignUser(@PathVariable("userId") String userId) {
 		return campaignUserRepository.findByUserId(userId);
 	}
@@ -44,5 +48,10 @@ public class vBlessController {
 		CampaignUser campaignUser = new CampaignUser(userId, firstname, lastname, email, phone, paymentinfo);
 		return campaignUserRepository.save(campaignUser);
 	}
+	
+	@RequestMapping("/getFundRaised/{campaignId}")
+	public Long getFundRaised(@PathVariable("campaignId") String campaignId) {
+		return fundDetailsRepository.findTotalFundRaised(Long.parseLong(campaignId));
+	}	
 
 }

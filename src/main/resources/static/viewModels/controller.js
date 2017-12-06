@@ -1,10 +1,12 @@
 /* userProfileController Implementation Start */
-myApp.controller('userProfileController', function($scope, $http, httpPost, $location) {
+myApp.controller('userProfileController',
+		['$scope', '$http', 'httpPost', '$location','adalAuthenticationService',
+		function($scope, $http, httpPost, $location, adalService) {
 	console.log("userProfileController");
-	$scope.userid="1";
+	$scope.userid=$scope.userInfo.userName;
 	
 
-	$http.get("/vBless/vBless/getCampaignUser/" + $scope.userid).then(
+	$http.get("/vBless/getCampaignUser/" + $scope.userid).then(
 	function(response) {
 		$scope.firstname = response.data.firstname;
 		$scope.lastname = response.data.lastname;
@@ -15,7 +17,7 @@ myApp.controller('userProfileController', function($scope, $http, httpPost, $loc
 	
 	$scope.doSave = function(){
 	      
-	       var url = "http://"+$location.$$host+':'+$location.$$port+"/vBless/vBless/updateCampaignUser";
+	       var url = "/vBless/updateCampaignUser";
 	       
 	       var data = new FormData();
 	       data.append('userId',$scope.userid);
@@ -44,13 +46,15 @@ myApp.controller('userProfileController', function($scope, $http, httpPost, $loc
     		$location.url("list");
     }
 
-});
+}]);
 
 /* homeController Implementation Start */
-myApp.controller('homeController', function($scope, httpPost,
-		operation, $location, $http, $rootScope) {
+myApp.controller('homeController', 
+				['$scope', '$http', 'httpPost', 'operation','$location','$rootScope',
+		function($scope, $http, httpPost, operation, $location, $rootScope) {
 	console.log("homeController initialized");
-	$rootScope.userId=null; /**This needs to be commented out**/
+//	$rootScope.userId=null; /**This needs to be commented out**/
+	$scope.userId=$scope.userInfo.userName;
 	$scope.campaigns=[];
 	
 	$http.get("/campaigns/").then(function(data){
@@ -65,11 +69,22 @@ myApp.controller('homeController', function($scope, httpPost,
 		return imgCss;
 	}
 
-});
+}]);
 
 /* campaignController Implementation Start */
-myApp.controller('campaignController',function($scope, httpPost, operation, $location, $http,campaign,$routeParams) {
+myApp.controller('campaignController',function($scope, httpPost, operation, $location, $http,campaign,$routeParams,$rootScope) {
 	console.log("campaignController initialized");
+	
+	
+	//if a user landed here after signup, check for group and set admin property accordingly
+	$rootScope.adminGroupId = "65ae1fea-6e30-4488-a8c9-b7b3cddbb779";
+	var groups = $rootScope.userInfo.profile.groups;
+	if(groups.includes($rootScope.adminGroupId)) {
+		$rootScope.isAdmin = "true";
+	}else {
+		$rootScope.isAdmin = "false";
+	}
+	
 	$scope.campaign={};
 	console.log($routeParams.ID);
 	if ($routeParams.ID != null && $routeParams.ID != undefined) {
@@ -94,7 +109,8 @@ myApp.controller('campaignController',function($scope, httpPost, operation, $loc
 		        };
 			console.log("saveFormData");
 			
-			$scope.campaign.userId=1; /********This needs to be changed*********/
+//			$scope.campaign.userId=1; /********This needs to be changed*********/
+			$scope.campaign.userId=$scope.userInfo.userName;
 			$http.post('/campaigns/',JSON.stringify($scope.campaign),config).then(function(response) {
 				if(response.data){
 					fileUpload(response.data.campaignId);
@@ -121,14 +137,27 @@ myApp.controller('campaignController',function($scope, httpPost, operation, $loc
 
 
 /* viewCampaignController Implementation Start */
-myApp.controller('viewCampaignController', function($rootScope,$scope, $http,$routeParams,$location) {
+myApp.controller('viewCampaignController', function($rootScope,$scope, $http,$routeParams,$location,$q) {
 	console.log("viewCampaignController");
-	$scope.userId=$rootScope.userId; 
-	$scope.percentComplete=50;
-	$http.get("/campaigns/"+$routeParams.ID).then(function(data){
-		$scope.campaign=data.data;		
-		$scope.raised=$scope.campaign.goal*$scope.percentComplete/100;
+	$scope.userid=$scope.userInfo.userName;
+	$scope.campaign = null;
+	$scope.percentComplete=10;
+	
+	$http.get("/campaigns/"+$routeParams.ID)
+		 .then(function(data){
+			$scope.campaign=data.data;	
+			console.log("campaign data1" + $scope.campaign);
+			$http.get("/vBless/getFundRaised/" + $routeParams.ID)
+			.then(
+					function(response) {
+						$scope.fundRaised = response.data;
+						console.log("fund raised1 " + $scope.fundRaised);
+						$scope.percentComplete=($scope.fundRaised/$scope.campaign.goal) *100;
+					});			
+			
 	});
+	
+	console.log("percent complete " + $scope.percentComplete);
 	
 	$scope.editPage=function(){
 		$location.path("/createCampaign/"+$routeParams.ID);
@@ -140,7 +169,8 @@ myApp.controller('viewCampaignController', function($rootScope,$scope, $http,$ro
 myApp.controller('campaignListController', function($scope, httpPost,
 		operation, $location, $http, $rootScope) {
 	console.log("campaignListController initialized");
-	$rootScope.userId=1; /**This needs to be commented out**/
+//	$rootScope.userId=1; /**This needs to be commented out**/
+	$scope.userId=$scope.userInfo.userName;
 	$scope.updateFormData = function() {
 		operation.setType('update');		//Mandatory
 		operation.setId($scope.cid);		//Mandatory
@@ -235,6 +265,33 @@ myApp.controller('shareController', function($scope, $http, $location) {
 });
 
 /* logoutController Implementation Start */
-myApp.controller('logoutController', function($scope, $http, $location) {
+myApp.controller('logoutController', 
+	['$scope', '$http', 'httpPost', '$location','adalAuthenticationService',
+	function($scope, $http, httpPost, $location, adalService) {
 	console.log("logoutController");
-});
+	$scope.logout = function(){
+		adalService.logOut();
+	}
+}]);
+
+
+/* loginController Implementation Start */
+myApp.controller('loginController', 
+	['$scope', '$http', 'httpPost', '$location','adalAuthenticationService',
+	function($scope, $http, httpPost, $location, adalService) {
+	console.log("LoginController");
+	$scope.login = function(){
+		adalService.login();
+		
+		$rootScope.adminGroupId = "65ae1fea-6e30-4488-a8c9-b7b3cddbb779";
+		var groups = $rootScope.userInfo.profile.groups;
+		if(groups.includes($rootScope.adminGroupId)) {
+			$rootScope.isAdmin = "true";
+		}else {
+			$rootScope.isAdmin = "false";
+		}
+		
+	}
+	
+}]);
+

@@ -1,10 +1,11 @@
 <div class="container">
 	<div id="myCarousel" class="carousel slide" data-ride="carousel"
 		data-interval="2000">
+
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner">
 			<div class="item active">
-				<a href="#!viewCampaign/{{campaignsFirst.campaignId}}">
+				<a href="#viewCampaign/{{campaignsFirst.campaignId}}">
 				<div style="{{heroCardCss(campaignsFirst.imageBlob)}}">
 					<div class="hero-text">
 						<h1 style="font-size: 50px">{{campaignsFirst.campaignTitle}}</h1>
@@ -16,7 +17,7 @@
 				</a>	
 			</div>
 			<div class="item" ng-repeat="campaign in campaignsRest">
-			<a href="#!viewCampaign/{{campaign.campaignId}}">
+			<a href="#viewCampaign/{{campaign.campaignId}}">
 				<div style="{{heroCardCss(campaign.imageBlob)}}">
 					<div class="hero-text">
 						<h1 style="font-size: 50px">{{campaign.campaignTitle}}</h1>

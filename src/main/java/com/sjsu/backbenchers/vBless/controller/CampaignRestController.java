@@ -111,7 +111,7 @@ public class CampaignRestController {
 		}
 		return new ResponseEntity<Campaign>(campaign,HttpStatus.CREATED);
 	}
-
+	
 	/* Update a campaign */
 	@RequestMapping(value="/",method=RequestMethod.PUT)
 	public ResponseEntity<Campaign> updateCampaign(@RequestBody Campaign campaign){
