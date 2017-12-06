@@ -110,10 +110,10 @@
 								ng-show="editMode" onchange="previewFile()"
 								placeholder="Photo..." file-model="fileUpload" required>
 						</div>
-						<div class="col-md-2">
+						<!-- <div class="col-md-2">
 							<button class="btn btn-default" ng-click="uploadPhoto()"
 								ng-show="editMode" id="uploadphoto">Upload</button>
-						</div>
+						</div>-->
 					</div>
 					<div class="col-md-3"></div>
 				</div>
@@ -127,13 +127,16 @@
 							ng-model="campaign.createDate" placeholder="Created Date" /> <label
 							title="Created Date" class="summary" ng-hide="editMode">{{createdDate}}</label>
 					</div>
-					<div class="col-md-6">
-						<button class="pull-right btn btn-primary" value="Create"
-							ng-click="saveFormData()" ng-show="editMode">Save</button>
-						<button class="pull-right btn btn-default" value="Cancel"
+					
+					    <div class="col-md-6">
+					    
+						<button class="pull-right btn btn-default" value="Cancel"  style="margin-left:10px ; background-color:#C0C0C0"
 							ng-click="clearFormData()" ng-show="editMode">Cancel</button>
+						
+						<button class="pull-right btn btn-default" value="Create" style="background-color:#C0C0C0" 
+							ng-click="saveFormData()" ng-show="editMode">Publish</button>
 
-					</div>
+						</div>
 				</div>
 	</form>
 </div>

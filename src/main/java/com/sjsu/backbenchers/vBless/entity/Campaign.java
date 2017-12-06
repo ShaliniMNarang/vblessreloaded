@@ -9,9 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.Table;
+
 
 
 @Entity
+@Table(appliesTo = "campaign")
 public class Campaign {
 
 	@javax.persistence.Id

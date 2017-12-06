@@ -2,6 +2,8 @@ package com.sjsu.backbenchers.vBless.controller;
 
 import java.security.Principal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import com.sjsu.backbenchers.vBless.entity.FundDetailsRepository;
 @RestController
 @RequestMapping("/vBless/")
 public class vBlessController {
+	
+	private static final Logger log = LoggerFactory.getLogger(CampaignRestController.class);
 	
 	@Autowired
 	private CampaignUserRepository campaignUserRepository;
@@ -34,6 +38,7 @@ public class vBlessController {
 	
 	@RequestMapping("/getCampaignUser/{userId:.+}")
 	public CampaignUser getCampaignUser(@PathVariable("userId") String userId) {
+		log.info("Inside getCampaignUser Method. Retrieving User Deatils for UserId: "+ userId );
 		return campaignUserRepository.findByUserId(userId);
 	}
 	
@@ -45,6 +50,7 @@ public class vBlessController {
 			@RequestParam(value="phone", required=true) String phone,
 			@RequestParam(value="paymentinfo", required=true) String paymentinfo
 			) {
+		log.info("Inside updateCampaignUser Method. Updating  User Details for User: "+ userId );
 		CampaignUser campaignUser = new CampaignUser(userId, firstname, lastname, email, phone, paymentinfo);
 		return campaignUserRepository.save(campaignUser);
 	}

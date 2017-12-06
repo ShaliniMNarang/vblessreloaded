@@ -50,7 +50,7 @@ public class CampaignRestController {
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ResponseEntity<List<Campaign>> getCampaigns(){
 		log.debug("getCampaigns");
-		List<Campaign> campaigns=campaignRepository.findAll();
+		List<Campaign> campaigns=campaignRepository.findActiveCampaigns("N");
 		return new ResponseEntity<List<Campaign>>(campaigns,org.springframework.http.HttpStatus.OK);
 	}
 	
@@ -70,6 +70,7 @@ public class CampaignRestController {
 	public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign campaign){
 		log.debug("createCampaign");
 		System.out.println("createCampaign");
+		campaign.setActive("Y");
 		Campaign newCampaign=campaignRepository.save(campaign);
 		return new ResponseEntity<Campaign>(newCampaign,HttpStatus.CREATED);
 	}
