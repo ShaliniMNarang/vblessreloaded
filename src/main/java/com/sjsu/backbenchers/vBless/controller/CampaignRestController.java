@@ -51,6 +51,11 @@ public class CampaignRestController {
 	public ResponseEntity<List<Campaign>> getCampaigns(){
 		log.debug("getCampaigns");
 		List<Campaign> campaigns=campaignRepository.findActiveCampaigns("N");
+		for (Campaign campaign : campaigns) {
+			if (campaign.getUserId() != null) {
+				campaign.setUserId(campaignUserRepository.findByUserId(campaign.getUserId()).getFullName());
+			}
+		}
 		return new ResponseEntity<List<Campaign>>(campaigns,org.springframework.http.HttpStatus.OK);
 	}
 	
