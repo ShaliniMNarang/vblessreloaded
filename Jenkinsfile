@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
             		sh '''
-                 mvn package dockerfile:build;
+                 mvn package dockerfile:build -DskipTests;
                  '''
             }
         }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                 ls
-                dockerProcess=`docker ps|grep "5050.*8080"|awk \'{print $1}\'`;
+                dockerProcess=`docker ps|grep "5051.*8080"|awk \'{print $1}\'`;
                 echo $dockerProcess
 				if [ -n "$dockerProcess" ]
 				then
