@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'app', defaultValue: 'vblessimg/vbless', description: 'docker app name')
+        string(name: 'app', defaultValue: 'vblessimg/vbless', description: 'vbless docker image')
     }
 
     stages {
