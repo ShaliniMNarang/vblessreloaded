@@ -64,8 +64,10 @@ myApp.controller('homeController',
 	});
 	
 	$scope.heroCardCss=function(image){
-		var imgCss="background-image: url(data:image/png;base64,"+image+");"+
+		if (image !=null && image!=undefined) {
+			var imgCss="background-image: url(data:image/png;base64,"+image+");"+
 	   			   "height: 70%;background-position: center;background-repeat: no-repeat;background-size: cover;position: relative;";
+		}
 		return imgCss;
 	}
 
