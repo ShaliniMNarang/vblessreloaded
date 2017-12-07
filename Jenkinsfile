@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
             		sh '''
-                 mvn install dockerfile:build;
+                 mvn package dockerfile:build;
                  '''
             }
         }
