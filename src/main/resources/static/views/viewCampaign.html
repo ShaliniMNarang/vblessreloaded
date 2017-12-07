@@ -1,8 +1,8 @@
 <div ng-controller="viewCampaignController">
 	<div class="row">
-	  <div class="col-lg-2">
+	  <div class="col-lg-4">
 	  </div>
-	  <div class="col-lg-8">
+	  <div class="col-lg-6">
 	  		<h2 class="text-center">{{campaign.campaignTitle}}</h2>
 	  </div>
 	  <div class="col-lg-2">
@@ -11,16 +11,16 @@
 	  </div>
 	</div>
 	<div class="row">
-	  <div class="col-lg-1"></div>
+	  <!-- <div class="col-lg-1"></div> -->
 	  <div class="col-lg-10">
 	  	<h4 class="text-muted">{{campaign.blurb}}</h4>
 	  </div>
 	</div>
 	<div class="row">
-	  <div class="col-lg-7">
-	  	<img height="250" width="450" src="data:image/png;base64,{{campaign.imageBlob}}"/>
+	  <div class="col-lg-6">
+	  	<img width="100%" src="data:image/png;base64,{{campaign.imageBlob}}"/>
 	  </div>
-	  <div class="col-lg-5">
+	  <div class="col-lg-6">
 	  <div class="progress">
 		  <div class="progress-bar" role="progressbar" aria-valuenow={{percentComplete}}
 		  aria-valuemin="0" aria-valuemax="100" style="width:{{percentComplete}}%">{{percentComplete}}%
