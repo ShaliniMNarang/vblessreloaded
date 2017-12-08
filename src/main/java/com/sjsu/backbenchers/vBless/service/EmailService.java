@@ -96,6 +96,6 @@ public class EmailService {
 			System.out.println(ex);
 			log.error("Mail error " + ex.getMessage());
 		}
-	return "S";
+		return "S";
 	}
 }

@@ -22,13 +22,12 @@ public class AppTest
 	@Mock
 	EmailService emailService;
 	
-
-	
 	@Test
 	public void test() {
 		
 		when(emailService.sendEmail(1L)).thenReturn("S");
 		
 		assertEquals("S",emailService.sendEmail(1L));
+		System.out.println("test");
 	}
 }
