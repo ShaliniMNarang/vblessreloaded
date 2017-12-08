@@ -44,7 +44,7 @@ public class EmailService {
 	private CampaignRepository campaignRepository;
 	
 	
-	public void sendEmail(Long campaignId){
+	public String sendEmail(Long campaignId){
 		System.out.println(fromEmail);
 		System.out.println(password);
 		try {
@@ -96,5 +96,6 @@ public class EmailService {
 			System.out.println(ex);
 			log.error("Mail error " + ex.getMessage());
 		}
+		return "S";
 	}
 }
