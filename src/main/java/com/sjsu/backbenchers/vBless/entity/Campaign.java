@@ -22,6 +22,8 @@ public class Campaign {
 	private Long campaignId;
 	private String userId;
 	private String campaignTitle;
+	
+	@Column(length=1500)
 	private String campaignDescription;
 	private String blurb;
 	
