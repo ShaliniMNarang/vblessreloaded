@@ -24,6 +24,7 @@ pipeline {
             steps {
                 sh '''
                 ls
+                pwd
                 dockerProcess=`docker ps|grep "5051.*8080"|awk \'{print $1}\'`;
                 echo $dockerProcess
 				if [ -n "$dockerProcess" ]
