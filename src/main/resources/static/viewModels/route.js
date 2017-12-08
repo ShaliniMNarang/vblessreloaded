@@ -43,7 +43,7 @@ myApp.config(['$routeProvider', '$qProvider', '$locationProvider', '$httpProvide
 			  {
 			      instance: 'https://login.microsoftonline.com/',
 			      tenant: 'vBless.onmicrosoft.com',
-			      clientId: '47b470a8-12ff-4ae9-8273-1f91b114689d',
+			      clientId: '4d5922bd-d0d8-46fe-a837-b4ca6795c712',
 			      extraQueryParameter: 'nux=1',
 			      anonymousEndpoints: [ '/campaigns' , '/vBless', 'views/header.html','views/footer.html']
 //			      cacheLocation: 'localStorage',
