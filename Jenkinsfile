@@ -30,6 +30,7 @@ pipeline {
 					docker stop $dockerProcess	
 					echo "docker process "$dockerProcess" stopped"
 				fi
+				echo "docker run -p 5051:8080 -t vblessimg/vbless"
 				/Users/chidanandapati/spring/vbless.sh
                 '''
             }
