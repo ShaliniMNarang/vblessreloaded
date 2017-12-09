@@ -23,11 +23,29 @@ public class AppTest
 	EmailService emailService;
 	
 	@Test
-	public void test() {
+	public void firstTest() {
 		
 		when(emailService.sendEmail(1L)).thenReturn("S");
 		
 		assertEquals("S",emailService.sendEmail(1L));
+		System.out.println("test");
+	}
+	
+	@Test
+	public void secondTest() {
+		
+		when(emailService.sendEmail(1L)).thenReturn("F");
+		
+		assertEquals("F",emailService.sendEmail(1L));
+		System.out.println("test");
+	}
+	
+	@Test
+	public void thirdTest() {
+		
+		when(emailService.sendEmail(1L)).thenReturn("T");
+		
+		assertEquals("T",emailService.sendEmail(1L));
 		System.out.println("test");
 	}
 }
